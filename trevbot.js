@@ -1,5 +1,11 @@
 var express = require('express')
 var app = express()
+var login = require("facebook-chat-api");
+var Forecast = require("forecast");
+var fs = require("fs");
+var date = new Date();
+var Firebase = require("firebase");
+var fb = new Firebase("https://trevbot.firebaseio.com");
 
 app.get('/', function (req, res) {
     res.send('Hello World!')
@@ -10,11 +16,6 @@ var server = app.listen(process.env.PORT || 3000, function () {
     var port = server.address().port
     console.log('App listening at http://%s:%s', host, port)
 })
-
-var login = require("facebook-chat-api");
-var Forecast = require("forecast");
-var fs = require('fs');
-var date = new Date();
 
 var forecast = new Forecast({
     service: 'forecast.io',
@@ -42,10 +43,31 @@ login({email: "trevoraquino@gmail.com", password: "melrose23"}, function callbac
             case "message":
                 if(event.body != null && event.body.length > 4) {
 
-                    if(event.body.includes("/echo")) {
-                        api.sendMessage("" + event.body.substring(6), event.threadID);
+                    if(event.body.includes("/add")) {
+                        var item = event.body.substring(5);
+                        if(item.length > 0)
+                        {
+                            fb.child("" + event.threadID).push(item);
+                            api.sendMessage("//CONSOLE: '" + item + "' had been added", event.threadID);
+                        }
+                        else
+                        {
+                            api.sendMessage("//CONSOLE: Need item to add", event.threadID);
+                        }
+                        
+                        //api.sendMessage("" + event.body.substring(6), event.threadID);
                         //api.sendMessage("henry is lame",event.threadID);
                     } 
+                    
+                    else if (event.body.includes("/list")) {
+                        fb.child("" + event.threadID).once("value", function(data) {
+                            var message = "Action Items:\n";
+                            for(var x in data.val())
+                                message += data.val()[x] + "\n";
+                            api.sendMessage(message, event.threadID);
+                        });
+                        
+                    }
 
                     else if (event.body.includes("/chatcolor")) {
                         var index = event.body.indexOf("#");
