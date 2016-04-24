@@ -1,0 +1,17 @@
+{
+  "name": "messengerbot",
+  "version": "1.0.0",
+  "description": "A facebook messenger bot written in Node.js",
+  "main": "trevbot.js",
+  "dependencies": {
+    "express": "^4.13.4",
+    "facebook-chat-api": "^1.1.0",
+    "forecast": "^0.2.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Trevor Aquino",
+  "license": "ISC"
+}
