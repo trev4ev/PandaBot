@@ -64,18 +64,33 @@ login({email: "trevbot23@gmail.com", password: "melrose23"}, function callback (
                         if(item.length > 0)
                         {
                             fb.child("" + event.threadID).once("value", function(data) {
-                                var deleted = false;
-                                var message = "'" + item + "' WAS NOT FOUND";   
-                                for(var x in data.val())
+                                var message = "'" + item + "' WAS NOT FOUND";  
+                                if( item.length < 3)
                                 {
-                                    if( item == data.val()[x].toLowerCase() + "")
+                                    var index = parseInt(item);
+                                    var count = 1;
+                                    for(var x in data.val())
                                     {
-                                        fb.child("" + event.threadID).child(x).set(null);
-                                        deleted = true;
+                                        if( count == index)
+                                        {
+                                            fb.child("" + event.threadID).child(x).set(null);
+                                            message = "ITEM AT INDEX " + index + " REMOVED";
+                                        }
+                                        count++;
                                     }
                                 }
-                                if(deleted)
-                                    message = "'" + item + "' REMOVED";
+                                else
+                                {
+                                    for(var x in data.val())
+                                    {
+                                        if( item == data.val()[x].toLowerCase() + "")
+                                        {
+                                            fb.child("" + event.threadID).child(x).set(null);
+                                            message = "'" + item + "' REMOVED";
+                                        }
+                                    }
+                                }
+                                    
                                 api.sendMessage(message, event.threadID);
                             });
                         }
@@ -83,6 +98,28 @@ login({email: "trevbot23@gmail.com", password: "melrose23"}, function callback (
                         {
                             api.sendMessage("NEED ITEM TO REMOVE", event.threadID);
                         }
+                    }
+                    
+                    else if (event.body.includes("/edit ")) {
+                        var index = parseInt(event.body.substring(6,8).trim());
+                        var newItem = event.body.substring(8).trim();
+                        fb.child("" + event.threadID).once("value", function(data) {
+                            var message = "'" + item + "' WAS NOT FOUND"; 
+                            var count = 1;
+                            for(var x in data.val())
+                            {
+                                if( count == index)
+                                {
+                                    fb.child("" + event.threadID).child(x).set(newItem);
+                                    message = "ITEM AT INDEX " + index + " HAS BEEN CHANGED TO " + newItem;
+                                }
+                                count++;
+                            }
+
+
+                            api.sendMessage(message, event.threadID);
+                        });
+                        
                     }
                     
                     else if (event.body.includes("/clear")) {
@@ -93,8 +130,12 @@ login({email: "trevbot23@gmail.com", password: "melrose23"}, function callback (
                     else if (event.body.includes("/list")) {
                         fb.child("" + event.threadID).once("value", function(data) {
                             var message = "ACTION ITEMS:\n";
+                            var count = 1;
                             for(var x in data.val())
-                                message += data.val()[x] + "\n";
+                            {
+                                message += count + ": " + data.val()[x] + "\n";
+                                count++;
+                            }
                             if(message == "ACTION ITEMS:\n")
                                 message = "NO ITEMS ADDED YET";
                             api.sendMessage(message, event.threadID);
@@ -113,13 +154,13 @@ login({email: "trevbot23@gmail.com", password: "melrose23"}, function callback (
                         });
                     } 
 
-                    else if (event.body.includes("#rekt")) {
-                        var msg = {
-                            body: "Get rekt bro",
-                            attachment: fs.createReadStream('rekt.gif')
-                        }
-                        api.sendMessage(msg,event.threadID);
-                    }
+//                    else if (event.body.includes("#rekt")) {
+//                        var msg = {
+//                            body: "Get rekt bro",
+//                            attachment: fs.createReadStream('rekt.gif')
+//                        }
+//                        api.sendMessage(msg,event.threadID);
+//                    }
                     
                     else if (event.body.includes("/weather")) {
                         forecast.get([37.2986610,-122.0125970], function(err,weather) {
