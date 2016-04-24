@@ -96,9 +96,6 @@ login({email: "trevoraquino@gmail.com", password: "melrose23"}, function callbac
                         });
                     }
                 }
-                api.markAsRead(event.threadID, function(err) {
-                    if(err) console.log(err);
-                });
                 break;
             case "event":
                 console.log(event);
