@@ -1,3 +1,16 @@
+var express = require('express')
+var app = express()
+
+app.get('/', function (req, res) {
+    res.send('Hello World!')
+})
+
+var server = app.listen(process.env.PORT || 3000, function () {
+    var host = server.address().address
+    var port = server.address().port
+    console.log('App listening at http://%s:%s', host, port)
+})
+
 var login = require("facebook-chat-api");
 var Forecast = require("forecast");
 var fs = require('fs');
@@ -14,10 +27,13 @@ var forecast = new Forecast({
     }
 });
 
-login({email: "trevbot23@gmail.com", password: "melrose23"}, function callback (err, api) {
+login({email: "trevoraquino@gmail.com", password: "melrose23"}, function callback (err, api) {
     if(err) return console.error(err);
 
-    api.setOptions({listenEvents: true});
+    api.setOptions({
+        listenEvents: true,
+        selfListen: true
+    });
 
     var stopListening = api.listen(function(err, event) {
         if(err) return console.error(err);
@@ -25,13 +41,8 @@ login({email: "trevbot23@gmail.com", password: "melrose23"}, function callback (
         switch(event.type) {
             case "message":
                 if(event.body != null && event.body.length > 4) {
-                    
-                    if(event.body.includes("/goodbye")) {
-                        api.sendMessage("Goodbye", event.threadID);
-                        return stopListening();
-                    }
 
-                    else if(event.body.includes("/echo")) {
+                    if(event.body.includes("/echo")) {
                         api.sendMessage("" + event.body.substring(6), event.threadID);
                         //api.sendMessage("henry is lame",event.threadID);
                     } 
@@ -59,6 +70,10 @@ login({email: "trevbot23@gmail.com", password: "melrose23"}, function callback (
                         forecast.get([37.2986610,-122.0125970], function(err,weather) {
                             if(err) return console.dir(err);
                             var currentHour = date.getHours();
+                            if(currentHour > 6)
+                                currentHour -= 7;
+                            else
+                                currentHour += 17;
                             var hour = currentHour;
                             var message = "";
                             var s;
