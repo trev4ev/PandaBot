@@ -1,4 +1,4 @@
-/*var express = require('express')
+var express = require('express')
 var app = express()
 
 app.get('/', function (req, res) {
@@ -9,7 +9,7 @@ var server = app.listen(process.env.PORT || 3000, function () {
     var host = server.address().address
     var port = server.address().port
     console.log('App listening at http://%s:%s', host, port)
-})*/
+})
 
 var login = require("facebook-chat-api");
 var Forecast = require("forecast");
@@ -72,6 +72,10 @@ login({email: "trevbot23@gmail.com", password: "melrose23"}, function callback (
                         forecast.get([37.2986610,-122.0125970], function(err,weather) {
                             if(err) return console.dir(err);
                             var currentHour = date.getHours();
+                            if(currentHour > 5)
+                                currentHour -= 6;
+                            else
+                                currentHour += 18;
                             var hour = currentHour;
                             var message = "";
                             var s;
