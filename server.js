@@ -72,10 +72,10 @@ login({email: "trevbot23@gmail.com", password: "melrose23"}, function callback (
                         forecast.get([37.2986610,-122.0125970], function(err,weather) {
                             if(err) return console.dir(err);
                             var currentHour = date.getHours();
-                            if(currentHour > 4)
-                                currentHour -= 5;
+                            if(currentHour > 6)
+                                currentHour -= 7;
                             else
-                                currentHour += 19;
+                                currentHour += 17;
                             var hour = currentHour;
                             var message = "";
                             var s;
