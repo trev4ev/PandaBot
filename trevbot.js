@@ -41,35 +41,68 @@ login({email: "trevoraquino@gmail.com", password: "melrose23"}, function callbac
 
         switch(event.type) {
             case "message":
-                if(event.body != null && event.body.length > 4) {
+                if(event.body != null && event.body.substring(1,0) == "/"){
 
-                    if(event.body.includes("/add")) {
+                    if(event.body.includes("/add ")) {
                         var item = event.body.substring(5);
                         if(item.length > 0)
                         {
-                            fb.child("" + event.threadID).push(item);
-                            api.sendMessage("//CONSOLE: '" + item + "' had been added", event.threadID);
+                            fb.child("" + event.threadID).push(item.trim());
+                            api.sendMessage("'" + item + "' HAS BEEN ADDED", event.threadID);
                         }
                         else
                         {
-                            api.sendMessage("//CONSOLE: Need item to add", event.threadID);
+                            api.sendMessage("NEED ITEM TO ADD", event.threadID);
                         }
                         
                         //api.sendMessage("" + event.body.substring(6), event.threadID);
                         //api.sendMessage("henry is lame",event.threadID);
                     } 
+                
+                    else if (event.body.includes("/remove ")) {
+                        var item = event.body.substring(8).toLowerCase().trim();
+                        if(item.length > 0)
+                        {
+                            fb.child("" + event.threadID).once("value", function(data) {
+                                var deleted = false;
+                                var message = "'" + item + "' WAS NOT FOUND";   
+                                for(var x in data.val())
+                                {
+                                    if( item == data.val()[x].toLowerCase() + "")
+                                    {
+                                        fb.child("" + event.threadID).child(x).set(null);
+                                        deleted = true;
+                                    }
+                                }
+                                if(deleted)
+                                    message = "'" + item + "' REMOVED";
+                                api.sendMessage(message, event.threadID);
+                            });
+                        }
+                        else
+                        {
+                            api.sendMessage("NEED ITEM TO REMOVE", event.threadID);
+                        }
+                    }
+                    
+                    else if (event.body.includes("/clear")) {
+                        fb.child("" + event.threadID).set(null);
+                        api.sendMessage("ALL ITEMS CLEARED", event.threadID);
+                    }
                     
                     else if (event.body.includes("/list")) {
                         fb.child("" + event.threadID).once("value", function(data) {
-                            var message = "Action Items:\n";
+                            var message = "ACTION ITEMS:\n";
                             for(var x in data.val())
                                 message += data.val()[x] + "\n";
+                            if(message == "ACTION ITEMS:\n")
+                                message = "NO ITEMS ADDED YET";
                             api.sendMessage(message, event.threadID);
                         });
                         
                     }
 
-                    else if (event.body.includes("/chatcolor")) {
+                    else if (event.body.includes("/chatcolor ")) {
                         var index = event.body.indexOf("#");
                         var color = event.body.substring(index, index+7);
                         api.changeThreadColor(color, event.threadID, function callback(err) {
