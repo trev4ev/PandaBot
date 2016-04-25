@@ -28,7 +28,7 @@ var forecast = new Forecast({
     }
 });
 
-login({email: "trevbot23@gmail.com", password: "melrose23"}, function callback (err, api) {
+login({email: "trevbot23@gmail.com", password: "trevbot"}, function callback (err, api) {
     if(err) return console.error(err);
 
     api.setOptions({
