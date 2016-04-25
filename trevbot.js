@@ -8,7 +8,7 @@ var Firebase = require("firebase");
 var fb = new Firebase("https://trevbot.firebaseio.com");
 
 app.get('/', function (req, res) {
-    res.send('Hello World!')
+    res.send('Hello!')
 })
 
 var server = app.listen(process.env.PORT || 3000, function () {
