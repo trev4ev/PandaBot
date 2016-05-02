@@ -43,7 +43,7 @@ login({email: "trevbot23@gmail.com", password: "trevbot"}, function callback (er
             case "message":
                 if(event.body != null && event.body.substring(1,0) == "/"){
 
-                    if(event.body.includes("/add ")) {
+                    if(event.body.toLowerCase().includes("/add ")) {
                         var item = event.body.substring(5);
                         if(item.length > 0)
                         {
@@ -59,7 +59,7 @@ login({email: "trevbot23@gmail.com", password: "trevbot"}, function callback (er
                         //api.sendMessage("henry is lame",event.threadID);
                     } 
                 
-                    else if (event.body.includes("/remove ")) {
+                    else if (event.body.toLowerCase().includes("/remove ")) {
                         var item = event.body.substring(8).toLowerCase().trim();
                         if(item.length > 0)
                         {
@@ -100,7 +100,7 @@ login({email: "trevbot23@gmail.com", password: "trevbot"}, function callback (er
                         }
                     }
                     
-                    else if (event.body.includes("/edit ")) {
+                    else if (event.body.toLowerCase().includes("/edit ")) {
                         var index = parseInt(event.body.substring(6,8).trim());
                         var newItem = event.body.substring(8).trim();
                         fb.child("" + event.threadID).once("value", function(data) {
@@ -122,12 +122,12 @@ login({email: "trevbot23@gmail.com", password: "trevbot"}, function callback (er
                         
                     }
                     
-                    else if (event.body.includes("/clear")) {
+                    else if (event.body.toLowerCase().includes("/clear")) {
                         fb.child("" + event.threadID).set(null);
                         api.sendMessage("ALL ITEMS CLEARED", event.threadID);
                     }
                     
-                    else if (event.body.includes("/list")) {
+                    else if (event.body.toLowerCase().includes("/list")) {
                         fb.child("" + event.threadID).once("value", function(data) {
                             var message = "ACTION ITEMS:\n";
                             var count = 1;
@@ -143,7 +143,7 @@ login({email: "trevbot23@gmail.com", password: "trevbot"}, function callback (er
                         
                     }
 
-                    else if (event.body.includes("/chatcolor ")) {
+                    else if (event.body.toLowerCase().includes("/chatcolor ")) {
                         var index = event.body.indexOf("#");
                         var color = event.body.substring(index, index+7);
                         api.changeThreadColor(color, event.threadID, function callback(err) {
@@ -162,7 +162,7 @@ login({email: "trevbot23@gmail.com", password: "trevbot"}, function callback (er
 //                        api.sendMessage(msg,event.threadID);
 //                    }
                     
-                    else if (event.body.includes("/weather")) {
+                    else if (event.body.toLowerCase().includes("/weather")) {
                         forecast.get([37.2986610,-122.0125970], function(err,weather) {
                             if(err) return console.dir(err);
                             var currentHour = date.getHours();
