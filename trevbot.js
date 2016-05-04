@@ -32,8 +32,7 @@ login({email: "trevbot23@gmail.com", password: "trevbot"}, function callback (er
     if(err) return console.error(err);
 
     api.setOptions({
-        listenEvents: true,
-        selfListen: true
+        listenEvents: true
     });
 
     var stopListening = api.listen(function(err, event) {
