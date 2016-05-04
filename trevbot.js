@@ -28,6 +28,21 @@ var forecast = new Forecast({
     }
 });
 
+function list(event, api) {
+    fb.child("" + event.threadID).once("value", function(data) {
+        var message = "ACTION ITEMS:\n";
+        var count = 1;
+        for(var x in data.val())
+        {
+            message += count + ": " + data.val()[x] + "\n";
+            count++;
+        }
+        if(message == "ACTION ITEMS:\n")
+            message = "NO ITEMS ADDED YET";
+        api.sendMessage(message, event.threadID);
+    });
+}
+
 login({email: "trevbot23@gmail.com", password: "trevbot"}, function callback (err, api) {
     if(err) return console.error(err);
 
@@ -48,6 +63,7 @@ login({email: "trevbot23@gmail.com", password: "trevbot"}, function callback (er
                         {
                             fb.child("" + event.threadID).push(item.trim());
                             api.sendMessage("'" + item + "' HAS BEEN ADDED", event.threadID);
+                            list(event, api);
                         }
                         else
                         {
@@ -127,19 +143,7 @@ login({email: "trevbot23@gmail.com", password: "trevbot"}, function callback (er
                     }
                     
                     else if (event.body.toLowerCase().includes("/list")) {
-                        fb.child("" + event.threadID).once("value", function(data) {
-                            var message = "ACTION ITEMS:\n";
-                            var count = 1;
-                            for(var x in data.val())
-                            {
-                                message += count + ": " + data.val()[x] + "\n";
-                                count++;
-                            }
-                            if(message == "ACTION ITEMS:\n")
-                                message = "NO ITEMS ADDED YET";
-                            api.sendMessage(message, event.threadID);
-                        });
-                        
+                        list(event,api);                      
                     }
 
                     else if (event.body.toLowerCase().includes("/chatcolor ")) {
