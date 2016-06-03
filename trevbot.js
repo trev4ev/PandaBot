@@ -157,13 +157,13 @@ login({email: "trevbot23@gmail.com", password: "trevbot"}, function callback (er
                         });
                     } 
 
-//                    else if (event.body.includes("#rekt")) {
-//                        var msg = {
-//                            body: "Get rekt bro",
-//                            attachment: fs.createReadStream('rekt.gif')
-//                        }
-//                        api.sendMessage(msg,event.threadID);
-//                    }
+                   else if (event.body.includes("#rekt")) {
+                       var msg = {
+                           body: "Get rekt bro",
+                           attachment: fs.createReadStream('rekt.gif')
+                       }
+                       api.sendMessage(msg,event.threadID);
+                   }
                     
                     else if (event.body.toLowerCase().includes("/weather")) {
                         forecast.get([37.2986610,-122.0125970], function(err,weather) {
