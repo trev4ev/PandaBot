@@ -40,6 +40,7 @@ function list(event, api) {
         if(message == "ACTION ITEMS:\n")
             message = "NO ITEMS ADDED YET";
         api.sendMessage(message, event.threadID);
+        console.log("got a /list request");
     });
 }
 
@@ -70,8 +71,6 @@ login({email: "trevbot23@gmail.com", password: "trevbot"}, function callback (er
                             api.sendMessage("NEED ITEM TO ADD", event.threadID);
                         }
                         
-                        //api.sendMessage("" + event.body.substring(6), event.threadID);
-                        //api.sendMessage("henry is lame",event.threadID);
                     } 
                 
                     else if (event.body.toLowerCase().includes("/remove ")) {
