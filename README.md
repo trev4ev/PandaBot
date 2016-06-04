@@ -20,5 +20,5 @@ Here are the commands which you can use with Panda Bot
 
 `/help` - see a list of all commands
 
-`/#rekt` - use immdiately after a sick burn is delivered
+`/#rekt` - use immediately after a sick burn is delivered
 
