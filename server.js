@@ -1,9 +1,7 @@
 var express = require('express')
 var app = express()
 var login = require("facebook-chat-api");
-var Forecast = require("forecast");
 var fs = require("fs");
-var date = new Date();
 var Firebase = require("firebase");
 var fb = new Firebase("https://trevbot.firebaseio.com");
 
@@ -17,17 +15,6 @@ var server = app.listen(process.env.PORT || 3000, function () {
     console.log('App listening at http://%s:%s', host, port)
 })
 
-var forecast = new Forecast({
-    service: 'forecast.io',
-    key: 'abb25a8c87bde4cb1f5c44d0084b7ed4',
-    units: 'f',
-    cache: true, 
-    ttl: {             
-    minutes: 10,
-    seconds: 45
-    }
-});
-
 function list(event, api) {
     fb.child("" + event.threadID).once("value", function(data) {
         var message = "ACTION ITEMS:\n";
@@ -40,7 +27,6 @@ function list(event, api) {
         if(message == "ACTION ITEMS:\n")
             message = "NO ITEMS ADDED YET";
         api.sendMessage(message, event.threadID);
-        console.log("got a /list request");
     });
 }
 
@@ -164,35 +150,6 @@ login({email: "trevbot23@gmail.com", password: "trevbot"}, function callback (er
                        api.sendMessage(msg,event.threadID);
                    }
                     
-                    else if (event.body.toLowerCase().includes("/weather")) {
-                        forecast.get([37.2986610,-122.0125970], function(err,weather) {
-                            if(err) return console.dir(err);
-                            var currentHour = date.getHours();
-                            if(currentHour > 6)
-                                currentHour -= 7;
-                            else
-                                currentHour += 17;
-                            var hour = currentHour;
-                            var message = "";
-                            var s;
-                            for(var i = 0; i < 12; i++)
-                            {
-                                s = "am"
-                                hour = (currentHour + i) % 24;
-                                if(hour >= 12)
-                                {
-                                    hour %= 12;
-                                    s = "pm";
-                                }
-                                if(hour == 0)
-                                {
-                                    hour = 12;
-                                }
-                                message += (hour + s  + " \t" + weather.hourly.data[i].temperature + "ºF\n");
-                            }
-                            api.sendMessage(message, event.threadID);
-                        });
-                    }
                 }
                 api.markAsRead(event.threadID, function(err) {
                     if(err) console.log(err);
