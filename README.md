@@ -1,7 +1,7 @@
 # Panda Bot
 A Facebook messenger bot designed to help group chats organize to-do items. Simple but effective.
 
-## Install: 
+## Install 
 Panda Bot's profile can be found [here] (https://www.facebook.com/profile.php?id=100011866687957&fref=ts)
 
 Add Panda Bot to any of your group chats or chat him directly for personal use
