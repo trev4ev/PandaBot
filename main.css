@@ -13,10 +13,61 @@ h1 {
     font-size: 20vh;
     font-family: 'Sarala', sans-serif;
     font-weight: 700;
-    margin-top: 20vh;
+    margin: 0;
+    margin-top: 5vh;
 }
 
 h2 {
     font-family: 'Sarala', sans-serif;
     font-weight: 400;
+    color: rgb(72, 72, 72);
+    margin: 0;
+    margin-bottom: 8vh;
+}
+
+h3 {
+    font-size: 6vh;
+    font-family: 'Sarala', sans-serif;
+    font-weight: 400;
+    margin: 0;
+    margin-bottom: 0.5vh;
+}
+
+h4 {
+    font-family: 'Sarala', sans-serif;
+    font-weight: 400;
+    color: rgb(72, 72, 72);
+    font-size: 3vh;
+    margin: 0;
+    margin-bottom: 2vh;
+}
+
+#code {
+    font-family: monospace;
+    background-color: rgba(181, 181, 181, 0.37);
+    border-radius: 3px;
+    padding: 3px;
+}
+
+a {
+    text-decoration: none;
+    color: rgb(135, 63, 142);
+}
+
+a:hover {
+    color: rgb(255, 255, 255);
+}
+
+#section {
+    margin: auto;
+} 
+
+.sidebox {
+    margin: 1vw;
+    width: 60vw;
+    display: inline-block;
+    border: solid 3px black;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 2vh;
 }
