@@ -140,15 +140,24 @@ login({email: "trevbot23@gmail.com", password: "trevbot"}, function callback (er
                                 return console.error(err);
                             }
                         });
+                    }
+
+                    else if (event.body.toLowerCase().includes("/help")) {
+                        var message = "/list - show all current items on the to-do list\n
+                            /add (item) - item is added to the end of the to-do list\n
+                            /remove (index) - item at specified index is taken off of the to-do list\n
+                            /edit (index) (new item) - item at specified index is changed to new item\n
+                            /clear - all items are taken off of the to-do list";
+                        api.sendMessage(message, event.threadID);
                     } 
 
-                   else if (event.body.includes("#rekt")) {
-                       var msg = {
-                           body: "Get rekt bro",
-                           attachment: fs.createReadStream('rekt.gif')
-                       }
-                       api.sendMessage(msg,event.threadID);
-                   }
+                   // else if (event.body.includes("#rekt")) {
+                   //     var msg = {
+                   //         body: "Get rekt bro",
+                   //         attachment: fs.createReadStream('rekt.gif')
+                   //     }
+                   //     api.sendMessage(msg,event.threadID);
+                   // }
                     
                 }
                 api.markAsRead(event.threadID, function(err) {
