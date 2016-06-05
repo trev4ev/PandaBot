@@ -11,14 +11,15 @@ body {
 
 h1 {
     font-size: 20vh;
-    font-family: 'Sarala', sans-serif;
-    font-weight: 700;
+    font-family: 'Lobster', sans-serif;
     margin: 0;
     margin-top: 5vh;
+    margin-bottom: 2vh;
 }
 
 h2 {
     font-family: 'Sarala', sans-serif;
+    font-size: 4vh;
     font-weight: 400;
     color: rgb(72, 72, 72);
     margin: 0;
@@ -26,7 +27,7 @@ h2 {
 }
 
 h3 {
-    font-size: 6vh;
+    font-size: 5vh;
     font-family: 'Sarala', sans-serif;
     font-weight: 400;
     margin: 0;
