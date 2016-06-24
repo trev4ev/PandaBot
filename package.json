@@ -7,7 +7,9 @@
     "express": "^4.13.4",
     "facebook-chat-api": "^1.1.0",
     "firebase": "^2.4.2",
-    "forecast": "^0.2.1"
+    "forecast": "^0.2.1",
+    "request"    : "latest",
+    "cheerio"    : "latest"
   },
   "devDependencies": {},
   "scripts": {
