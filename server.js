@@ -5,6 +5,9 @@ var fs = require("fs");
 var Firebase = require("firebase");
 var fb = new Firebase("https://trevbot.firebaseio.com");
 
+var request = require('request');
+var cheerio = require('cheerio');
+
 app.get('/', function (req, res) {
     res.send('Hello world')
 })
@@ -58,7 +61,31 @@ login({email: "pandabot17@gmail.com", password: "pandabot"}, function callback (
                         }
                         
                     } 
-                
+                    else if (event.body.toLowerCase().includes("/elo ")) {
+                        var name = event.body.substring(5);
+                        url = 'https://www.badlion.net/profile/user/' + name;
+
+                        request(url, function(error,response, html) {
+                            if(!error) {
+                                var $ = cheerio.load(html);
+
+                                var elo;
+                                var json = {elo: ""};
+
+                                $('.rate_Table').filter(function() {
+                                    var data = $(this);
+                                    var table = data.children();
+                                    for(var i = 0; i < table.length; i++){
+                                       console.log(table.eq(i).children().eq(0).text()); if(table.eq(i).children().eq(0).text().includes("Build ")) {
+                                            elo = table.eq(i).children().eq(1).text();
+                                        }
+                                    }
+                                    api.sendMessage(elo, event.threadID);
+                                });
+                            }
+                        });
+                    }
+                        
                     else if (event.body.toLowerCase().includes("/remove ")) {
                         var item = event.body.substring(8).toLowerCase().trim();
                         if(item.length > 0)
