@@ -33,7 +33,7 @@ function list(event, api) {
     });
 }
 
-login({email: "pandabot17@gmail.com", password: "pandabot"}, function callback (err, api) {
+login({email: ---EMAIL---, password: ---PASSWORD---}, function callback (err, api) {
     if(err) return console.error(err);
 
     api.setOptions({
