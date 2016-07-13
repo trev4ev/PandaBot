@@ -3,7 +3,7 @@ var app = express()
 var login = require("facebook-chat-api");
 var fs = require("fs");
 var Firebase = require("firebase");
-var fb = new Firebase("https://trevbot.firebaseio.com");
+var fb = new Firebase(---FIREBASE LINK---);
 
 var request = require('request');
 var cheerio = require('cheerio');
